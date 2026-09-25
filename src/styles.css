@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f3eee4;
+  --color-paper-deep: #e6dccb;
+  --color-ink: #1c1917;
+  --color-muted: #57534e;
+  --color-muted-soft: #a8a29e;
+  --color-azhar: #1b4d3e;
+  --color-azhar-deep: #14382d;
+  --color-azhar-fg: #f3eee4;
+  --color-line: #1c1917;
+  --color-danger: #9f2d2d;
+  --color-whatsapp: #1f6b4a;
+  --color-whatsapp-deep: #17553b;
+
+  --font-sans: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --font-display: "Amiri", "Noto Naskh Arabic", serif;
+  --font-mono: "IBM Plex Sans Arabic", ui-monospace, monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --shadow-border:
+    0px 0px 0px 1px rgb(28 25 23 / 0.08),
+    0px 1px 2px -1px rgb(28 25 23 / 0.08),
+    0px 2px 4px 0px rgb(28 25 23 / 0.05);
+  --shadow-raised:
+    0px 0px 0px 1px rgb(28 25 23 / 0.08),
+    0px 16px 40px -12px rgb(28 25 23 / 0.28);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --motion-slow: 400ms;
+  --motion-scale-modal: 0.96;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer utilities {
+  .pressable {
+    transition-property: transform;
+    transition-duration: var(--motion-quick);
+    transition-timing-function: var(--ease-out);
+  }
+  .pressable:active:not(:disabled) {
+    scale: 0.96;
+  }
+
+  .max-h-dialog {
+    max-height: min(44rem, calc(100dvh - 2rem));
+  }
+
+  .register-table {
+    min-width: 72rem;
+  }
+
+  .dir-ltr {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+}
+
+.dialog-overlay {
+  animation: overlay-in var(--motion-fast) var(--ease-smooth-out);
+}
+
+.dialog-panel {
+  top: 50%;
+  left: 50%;
+  width: min(48rem, calc(100% - 2rem));
+  max-height: min(44rem, calc(100dvh - 2rem));
+  transform: translate(-50%, -50%);
+}
+
+.dialog-panel.max-w-md {
+  width: min(28rem, calc(100% - 2rem));
+}
+
+.dialog-panel.max-w-xl {
+  width: min(36rem, calc(100% - 2rem));
+}
+
+.dialog-content {
+  animation: modal-in var(--motion-fast) var(--ease-smooth-out);
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(var(--motion-scale-modal));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dialog-overlay,
+  .dialog-content,
+  .pressable {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .register-table {
+    min-width: 0;
+  }
+  .stack-item {
+    break-inside: avoid;
+  }
+}
